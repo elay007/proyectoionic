@@ -2,8 +2,8 @@ angular.module('starter.controllers', ['firebase'])
 
 .controller('DashCtrl', function($scope, $firebaseArray) {
 
-	var ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products");
-	$scope.products = $firebaseArray(ref);
+	$scope.ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products");
+	$scope.products = $firebaseArray($scope.ref);
 	//$scope.products = [{'name':'Iphone', 'prices': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}, {'name':'Samsung', 'prices': 78.10, 'img': 'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}] 
 })
 
@@ -14,10 +14,12 @@ angular.module('starter.controllers', ['firebase'])
   }
 })
 
-.controller('DashDetailCtrl', function($scope, $stateParams) {
+.controller('DashDetailCtrl', function($scope, $stateParams, $firebaseObject) {
+	
+	var ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products/"+$stateParams.productId);
 
-	$scope.product = {}; 
-	$scope.product.id = $stateParams.productId;
+	$scope.product = $firebaseObject(ref);
+
 
 })
 
