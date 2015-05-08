@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -48,16 +48,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-  .state('tab.sign-in', {
-    url: '/sign-in',
+  .state('tab.dash-detail', {
+    url: '/dash/:productId',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/sign-in.html',
-        controller: 'SignInCtrl'
+      'tab-dash': {
+        templateUrl: 'templates/tab-dash-detail.html',
+        controller: 'DashDetailCtrl'
       }
     }
   })
 
+  .state('sign-in', {
+    url: '/sign-in',
+    templateUrl: 'templates/sign-in.html',
+    controller: 'SignInCtrl'
+  })
 
   .state('tab.sign-up', {
     url: '/sign-up',
