@@ -7,9 +7,13 @@ angular.module('starter.controllers', ['firebase'])
 	//$scope.products = [{'name':'Iphone', 'prices': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}, {'name':'Samsung', 'prices': 78.10, 'img': 'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}] 
 })
 
-.controller('ChatsCtrl', function($scope, Chats, $rootScope, $state) {
+.controller('ChatsCtrl', function($scope, Chats, $rootScope, $state, $ionicHistory) {
 
-  if (!$rootScope.token){
+  if (!$rootScope.userSignedIn()){
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true
+    });
   	$state.go('sign-in');
   }
   $scope.chats = Chats.all();
@@ -31,7 +35,7 @@ angular.module('starter.controllers', ['firebase'])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('SignInCtrl', ['$scope', '$rootScope', '$window' , 
+.controller('SignInCtrl', ['$scope', '$rootScope', '$window', '$localstorage' , 
   function ($scope, $rootScope, $window, $localstorage) {
      // check session
      //$rootScope.checkSession();
@@ -69,7 +73,7 @@ angular.module('starter.controllers', ['firebase'])
               $rootScope.hide();
               console.log(authData);
               $rootScope.token = authData.token;
-              //$localstorage.set('token', authData.token);
+              $localstorage.set('token', authData.token);
               //console.log($localstorage.get('token', authData.token));
               //console.log($window.localStorage);
               $window.location.href = ('#/tabs/dash');
@@ -129,7 +133,10 @@ angular.module('starter.controllers', ['firebase'])
   ])
 
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, $rootScope, $state) {
+  if (!$rootScope.userSignedIn()){
+  	$state.go('sign-in');
+  }
   $scope.settings = {
     enableFriends: true
   };

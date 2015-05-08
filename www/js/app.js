@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
 
-.run(function($ionicPlatform, $ionicLoading, $rootScope, $ionicLoading, $window) {
+.run(function($ionicPlatform, $ionicLoading, $rootScope, $ionicLoading, $window, $localstorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -75,16 +75,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           $localstorage.set('token', authData.token);
       }
     }
-    /*$rootScope.initSession = function(){
-      $rootScope.token = $localstorage.get('token', $rootScope.token);
-      console.log($rootScope.token);
-      
-      if($rootScope.token){
-        $rootScope.refirebase.authWithCustomToken($rootScope.token, $rootScope.authHandler);
-      }
-    }*/
+    $rootScope.initSession = function(){
+      var token = $localstorage.get('token');
+      console.log(token);
 
-    //$rootScope.initSession();
+      if(token){
+        $rootScope.refirebase.authWithCustomToken(token, $rootScope.authHandler);
+      }
+    }
+    $rootScope.initSession();
+
+
+    $rootScope.userSignedIn = function(){
+        return($rootScope.token != null)
+    }
 
     $rootScope.checkSession = function() {
       //var authData = $rootScope.refirebase.getAuth();
