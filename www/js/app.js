@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $ionicLoading, $rootScope, $ionicLoading, $window) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,6 +17,90 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
+    }
+
+
+    $rootScope.token = null;
+
+
+    $rootScope.refirebase = new Firebase("https://shining-inferno-7335.firebaseio.com");
+
+    //var authRef = new Firebase($rootScope.baseUrl);
+    //$rootScope.auth = $firebaseAuth(authRef);
+ 
+    $rootScope.show = function(text) {
+      $rootScope.loading = $ionicLoading.show({
+        template: text ? text : 'Loading..',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+      });
+    };
+ 
+
+    $rootScope.hide = function() {
+      $ionicLoading.hide();
+    };
+ 
+    $rootScope.notify = function(text) {
+      $rootScope.show(text);
+      $window.setTimeout(function() {
+        $rootScope.hide();
+      }, 1999);
+    };
+ 
+    $rootScope.logout = function() {
+      $rootScope.refirebase.unauth();
+      $rootScope.checkSession();
+    };
+
+    $rootScope.show = function(text) {
+      $rootScope.loading = $ionicLoading.show({
+        template: text ? text : 'Loading..',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+      });
+    };
+
+    $rootScope.authHandler = function(error, authData) {
+      console.log(authData);
+      if (error) {
+        $rootScope.token = null;
+      }
+      else {
+          $rootScope.token = authData.token;
+          $localstorage.set('token', authData.token);
+      }
+    }
+    /*$rootScope.initSession = function(){
+      $rootScope.token = $localstorage.get('token', $rootScope.token);
+      console.log($rootScope.token);
+      
+      if($rootScope.token){
+        $rootScope.refirebase.authWithCustomToken($rootScope.token, $rootScope.authHandler);
+      }
+    }*/
+
+    //$rootScope.initSession();
+
+    $rootScope.checkSession = function() {
+      //var authData = $rootScope.refirebase.getAuth();
+      //if (authData) {
+      if(!$rootScope.token){
+        $state.go('sign-in');
+        //$window.location.href = '#/';
+        //console.log("User " + authData.uid + " is logged in with " + authData.provider);
+      } 
+      //else {
+        //$ionicHistory.nextViewOptions({
+        //  disableAnimate: true,
+        //  disableBack: true
+        //});
+        //$state.go('sign-in');
+      //}
     }
   });
 })
