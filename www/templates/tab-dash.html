@@ -1,4 +1,11 @@
 <ion-view view-title="Productos">
+  <ion-nav-buttons side="right" >
+    <a class="button button-clear button-positive" ng-show="userSignedIn()" href="#/tab/dash-form">
+      <i class="ion-plus-circled"></i>
+      Publicar
+    </a>
+  </ion-nav-buttons> 
+
   <ion-content>
 
     <div class="list">

@@ -146,6 +146,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  .state('tab.dash-form', {
+    url: '/dash-form',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/tab-dash-form.html',
+        controller: 'DashFormCtrl'
+      }
+    }
+  })
+
   .state('sign-in', {
     url: '/sign-in',
     templateUrl: 'templates/sign-in.html',

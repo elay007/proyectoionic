@@ -8,7 +8,10 @@
         <p>{{product.content.description}}</p>
       </div>
       <div class="item">
-        <img class="full-image" src="{{product.image_urls['300x400'][0].url}}">
+        <!--
+        <img class="full-image" src="{{product.image_urls['300x400'][0].url}}">-->
+
+        <img src="data:image/jpg;base64,{{product.photo}}" style="max-width: 100%;" ng-if="(product.photo != '')">
       </div>
       <a class="item item-icon-left assertive" href="#">
         <i class="icon ion-ios-cart"></i>

@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['firebase'])
+angular.module('starter.controllers', ['firebase','ngCordova'])
 
 .controller('DashCtrl', function($scope, $firebaseArray) {
 
@@ -7,6 +7,46 @@ angular.module('starter.controllers', ['firebase'])
 	//$scope.products = [{'name':'Iphone', 'prices': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}, {'name':'Samsung', 'prices': 78.10, 'img': 'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}] 
 })
 
+.controller('DashFormCtrl', function($scope, $firebaseArray, $rootScope, $state, $cordovaCamera) {
+
+	$scope.product = {name: '', sale_price: '', content: {description: ''}, photo: ''};
+
+    //document.addEventListener("deviceready", function () {
+
+    $scope.takePicture = function() {
+          var options = {
+              quality : 75,
+              destinationType : Camera.DestinationType.DATA_URL,
+              sourceType : Camera.PictureSourceType.CAMERA,
+              allowEdit : true,
+              encodingType: Camera.EncodingType.JPEG,
+              popoverOptions: CameraPopoverOptions,
+              targetWidth: 500,
+              targetHeight: 500,
+              saveToPhotoAlbum: false
+          };
+          $cordovaCamera.getPicture(options).then(function(imageData) {
+              //syncArray.$add({image: imageData}).then(function() {
+              //    alert("Image has been uploaded");
+              //});
+              console.log(imageData);
+              $scope.product.photo = imageData;
+
+          }, function(error) {
+              console.error(error);
+          });
+      }
+    //}, false);
+
+    $scope.uploadProduct = function() {
+      var productRef =  $rootScope.refirebase.child("products").push($scope.product);
+      var productId = productRef.key();
+      console.log(productId);
+      $state.go('tab.dash-detail',{productId: productId});
+    }
+
+
+})
 .controller('ChatsCtrl', function($scope, Chats, $rootScope, $state, $ionicHistory) {
 
   if (!$rootScope.userSignedIn()){
@@ -112,8 +152,12 @@ angular.module('starter.controllers', ['firebase'])
           if (!error) {
           	console.log(user);
             $rootScope.hide();
+            $rootScope.refirebase.child("users").child(user.uid).set({
+              provider: 'password',
+              email: $scope.user.email
+            });
             //$rootScope.token = user.token;
-            //$window.location.href = ('#/');
+            $window.location.href = ('#/');
           }
           else {
             $rootScope.hide();
