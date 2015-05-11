@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['firebase','ngCordova'])
+angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.core'])
 
 .controller('DashCtrl', function($scope, $firebaseArray) {
 
@@ -75,8 +75,8 @@ angular.module('starter.controllers', ['firebase','ngCordova'])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('SignInCtrl', ['$scope', '$rootScope', '$window', '$localstorage' , 
-  function ($scope, $rootScope, $window, $localstorage) {
+.controller('SignInCtrl', ['$scope', '$rootScope', '$window', '$localstorage' , '$ionicUser', 
+  function ($scope, $rootScope, $window, $localstorage, $ionicUser) {
      // check session
      //$rootScope.checkSession();
      $scope.user = {
@@ -116,6 +116,16 @@ angular.module('starter.controllers', ['firebase','ngCordova'])
               $localstorage.set('token', authData.token);
               //console.log($localstorage.get('token', authData.token));
               //console.log($window.localStorage);
+
+              $ionicUser.identify({
+                user_id: authData.uid,
+                email: email              
+              }).then(function() {
+                console.log("Success identify User");
+              }, function(err) {
+                  console.log("Error identify User");
+                  console.log(err);
+              });;
               $window.location.href = ('#/tabs/dash');
           }
         }

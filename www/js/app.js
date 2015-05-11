@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase', 'ionic.service.core'])
 
 .run(function($ionicPlatform, $ionicLoading, $rootScope, $ionicLoading, $window, $localstorage) {
   $ionicPlatform.ready(function() {
@@ -76,14 +76,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
     $rootScope.initSession = function(){
-      var token = $localstorage.get('token');
+      var token = '';//$localstorage.get('token');
       console.log(token);
 
       if(token){
         $rootScope.refirebase.authWithCustomToken(token, $rootScope.authHandler);
       }
     }
-    $rootScope.initSession();
+    //$rootScope.initSession();
 
 
     $rootScope.userSignedIn = function(){
@@ -109,12 +109,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicAppProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
+  
+
+  $ionicAppProvider.identify({
+    // The App ID for the server
+    app_id: '',
+    // The API key all services will use for this app
+    api_key: '',
+    
+    api_write_key: ''
+    // Your GCM sender ID/project number (Uncomment if using GCM)
+    //gcm_id: 'YOUR_GCM_ID'
+  });
+
+
   $stateProvider
 
   // setup an abstract state for the tabs directive
