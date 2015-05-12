@@ -7,9 +7,42 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 	//$scope.products = [{'name':'Iphone', 'prices': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}, {'name':'Samsung', 'prices': 78.10, 'img': 'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}] 
 })
 
-.controller('DashFormCtrl', function($scope, $firebaseArray, $rootScope, $state, $cordovaCamera) {
+.controller('DashFormCtrl', function($scope, $firebaseArray, $rootScope, $state, $cordovaCamera, $cordovaGeolocation) {
 
 	$scope.product = {name: '', sale_price: '', content: {description: ''}, photo: ''};
+
+
+    var posOptions = {timeout: 10000, enableHighAccuracy: false};
+
+    $cordovaGeolocation
+    .getCurrentPosition(posOptions)
+    .then(function (position) {
+      console.log(position);
+      $scope.lat  = position.coords.latitude
+      $scope.long = position.coords.longitude
+    }, function(err) {
+        console.log(err);
+    });
+
+
+    var watchOptions = {
+      frequency : 1000,
+      timeout : 3000,
+      enableHighAccuracy: false // may cause errors if true
+    };
+
+    var watch = $cordovaGeolocation.watchPosition(watchOptions);
+    watch.then(
+      null,
+      function(err) {
+        console.log(err);
+      },
+      function(position) {
+        console.log(position);
+        $scope.lat  = position.coords.latitude
+        $scope.long = position.coords.longitude
+    });
+
 
     //document.addEventListener("deviceready", function () {
 

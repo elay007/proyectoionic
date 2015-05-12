@@ -17,6 +17,11 @@
           <button class="button button-icon icon ion-camera" ng-click="takePicture()"> Select picture </button>
       </label>
       <img src="data:image/jpg;base64,{{product.photo}}" style="max-width: 100%;" ng-if="(product.photo != '')">
+      <div class="item">
+        <b>Lat: </b> {{lat}}
+        <br>
+        <b>Long: </b> {{long}}
+      </div>
       <button class="button button-block button-positive" ng-click="uploadProduct()">
         Subir!
       </button>
