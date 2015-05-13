@@ -9,6 +9,27 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 
 .controller('DashFormCtrl', function($scope, $firebaseArray, $rootScope, $state, $cordovaCamera, $cordovaGeolocation) {
 
+
+      var myLatlng = new google.maps.LatLng(-17.37, -66.15);
+
+      var mapOptions = {
+          center: myLatlng,
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+
+      var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+
+      var marker = new google.maps.Marker({
+              position: new google.maps.LatLng(-17.37, -66.15),
+              map: map,
+              title: "Mi locacion",
+              options: { draggable: true }
+      });
+
+
+
 	$scope.product = {name: '', sale_price: '', content: {description: ''}, photo: ''};
 
 
