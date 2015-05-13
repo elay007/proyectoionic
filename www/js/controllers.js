@@ -82,8 +82,8 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
           watch.clearWatch();
           var pos = marker.getPosition();
           console.log(pos);
-          $scope.product.lat  = pos.F;
-          $scope.product.long = pos.A;
+          $scope.product.lat  = pos.A;
+          $scope.product.long = pos.F;
         });
     });
 
@@ -143,8 +143,42 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 
 	var ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products/"+$stateParams.productId);
 
+
 	$scope.product = $firebaseObject(ref);
+
+  $scope.product.$loaded().then(function() {
+    $scope.loadMap();
+  });
+
 	console.log($scope.product);
+
+
+  $scope.loadMap = function(){
+
+    console.log("Producto");
+    console.log($scope.product);
+
+    console.log($scope.product.lat);
+    console.log($scope.product.long);
+
+    var myLatlng = new google.maps.LatLng($scope.product.lat, $scope.product.long);
+
+    console.log(myLatlng);
+
+    var mapOptions = {
+        center: myLatlng,
+        zoom: 16,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var map = new google.maps.Map(document.getElementById("map1"), mapOptions);
+
+    var marker = new google.maps.Marker({
+            position: new google.maps.LatLng($scope.product.lat, $scope.product.long),
+            map: map,
+            title: $scope.product.name
+    });
+  }
 
 })
 
@@ -271,4 +305,10 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
   $scope.settings = {
     enableFriends: true
   };
-});
+})
+
+.controller('MapCtrl', function($scope, $rootScope, $state) {
+
+
+})
+
