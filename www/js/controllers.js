@@ -41,6 +41,11 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
       console.log(position);
       $scope.lat  = position.coords.latitude
       $scope.long = position.coords.longitude
+
+      map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+          
+      marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+
     }, function(err) {
         console.log(err);
     });
@@ -60,8 +65,11 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
       },
       function(position) {
         console.log(position);
-        $scope.lat  = position.coords.latitude
-        $scope.long = position.coords.longitude
+        $scope.lat  = position.coords.latitude;
+        $scope.long = position.coords.longitude;
+        
+        marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+
     });
 
 
