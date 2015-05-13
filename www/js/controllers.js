@@ -10,6 +10,9 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 .controller('DashFormCtrl', function($scope, $firebaseArray, $rootScope, $state, $cordovaCamera, $cordovaGeolocation) {
 
 
+    $scope.product = {name: '', sale_price: '', content: {description: ''}, photo: '', lat: -17.37, long: -66.15};
+
+
       var myLatlng = new google.maps.LatLng(-17.37, -66.15);
 
       var mapOptions = {
@@ -30,7 +33,8 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 
 
 
-	$scope.product = {name: '', sale_price: '', content: {description: ''}, photo: ''};
+
+
 
 
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
@@ -39,8 +43,8 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
     .getCurrentPosition(posOptions)
     .then(function (position) {
       console.log(position);
-      $scope.lat  = position.coords.latitude
-      $scope.long = position.coords.longitude
+      $scope.product.lat  = position.coords.latitude
+      $scope.product.long = position.coords.longitude
 
       map.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
           
@@ -65,11 +69,22 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
       },
       function(position) {
         console.log(position);
-        $scope.lat  = position.coords.latitude;
-        $scope.long = position.coords.longitude;
-        
+        $scope.product.lat  = position.coords.latitude;
+        $scope.product.long = position.coords.longitude;
+
         marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
 
+    });
+
+    google.maps.event.addListener(marker, 'dragend', function() {
+        $scope.$apply(function(){
+          //Stop listening changes
+          watch.clearWatch();
+          var pos = marker.getPosition();
+          console.log(pos);
+          $scope.product.lat  = pos.F;
+          $scope.product.long = pos.A;
+        });
     });
 
 

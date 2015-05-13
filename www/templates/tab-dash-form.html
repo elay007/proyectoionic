@@ -18,9 +18,9 @@
       </label>
       <img src="data:image/jpg;base64,{{product.photo}}" style="max-width: 100%;" ng-if="(product.photo != '')">
       <div class="item">
-        <b>Lat: </b> {{lat}}
+        <b>Lat: </b> {{product.lat}}
         <br>
-        <b>Long: </b> {{long}}
+        <b>Long: </b> {{product.long}}
       </div>
       <button class="button button-block button-positive" ng-click="uploadProduct()">
         Subir!
