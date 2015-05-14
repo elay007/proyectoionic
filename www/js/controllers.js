@@ -4,6 +4,16 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 
 	$scope.ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products");
 	$scope.products = $firebaseArray($scope.ref);
+
+
+  $scope.addItems = function() {
+    var product = {'name':'Iphone', 'sale_price': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'};
+    var product2 = {'name':'Android', 'sale_price': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'};
+    $scope.products.push(product);
+    $scope.products.push(product2);
+
+    $scope.$broadcast('scroll.infiniteScrollComplete')
+  }
 	//$scope.products = [{'name':'Iphone', 'prices': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}, {'name':'Samsung', 'prices': 78.10, 'img': 'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}] 
 })
 
