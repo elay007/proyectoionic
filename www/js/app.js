@@ -23,7 +23,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     $rootScope.token = null;
 
 
-    $rootScope.refirebase = new Firebase("https://shining-inferno-7335.firebaseio.com");
+    //$rootScope.refirebase = new Firebase("https://qrfact.firebaseio.com");
+    //dmancilla
+    $rootScope.refirebase = new Firebase("https://qrfact.firebaseio.com/");
 
     //var authRef = new Firebase($rootScope.baseUrl);
     //$rootScope.auth = $firebaseAuth(authRef);
@@ -76,6 +78,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
     $rootScope.initSession = function(){
+      //var token = 'lalyl0LdF1yjJA3wPvyhS1qyY2xMiQyp7srpPazR';//$localstorage.get('token');
       var token = '';//$localstorage.get('token');
       console.log(token);
 
@@ -151,7 +154,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   .state('tab.dash-detail', {
-    url: '/dash/:productId',
+    url: '/dash/:facturaId',
     views: {
       'tab-dash': {
         templateUrl: 'templates/tab-dash-detail.html',
@@ -215,16 +218,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
   
-  .state('tab.map', {
-    url: '/map',
+  .state('tab.downfile', {
+    url: '/downfile',
     views: {
-      'tab-map': {
-        templateUrl: 'templates/tab-map.html',
-        controller: 'MapCtrl'
+      'tab-downfile': {
+        templateUrl: 'templates/tab-downfile.html',
+        controller: 'DownFileCtrl'
       }
     }
   });
-
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/dash');

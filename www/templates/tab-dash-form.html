@@ -1,27 +1,57 @@
-<ion-view view-title="Add Listing" >
+<ion-view view-title="Add Factura" >
   <ion-content>
     <div class="list list-inset">
+      <button class="button button-block button-positive" ng-click="leerCodigo()">
+        Escanear
+      </button>
       <label class="item item-input ">
-        <span class="input-label">Name:</span>
-        <input type="text" ng-model="product.name">
+        <span class="input-label">Nit Empresa:</span>
+        <input type="text" ng-model="factura.nit_empresa">
       </label>
       <label class="item item-input">
-        <span class="input-label" >Price:</span>
-        <input type="number" ng-model="product.sale_price">
+        <span class="input-label" >Nro. Factura:</span>
+        <input type="text" ng-model="factura.nro_fac">
       </label>
       <label class="item item-input">
-        <span class="input-label">Description:</span>
-        <textarea rows="4" ng-model="product.content.description"></textarea>
+        <span class="input-label">Nro. Autorizacion:</span>
+        <input type="text" ng-model="factura.nro_aut">
       </label>
+      <label class="item item-input">
+        <span class="input-label">Fecha:</span>
+        <input type="text" ng-model="factura.fecha_fac">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Importe:</span>
+        <input type="text" step="0.01" ng-model="factura.importe">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Importe Credito Fiscal:</span>
+        <input type="text" step="0.01" ng-model="factura.importe_ley">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Codigo Control:</span>
+        <input type="text" ng-model="factura.codigo_control">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Nit Cliente:</span>
+        <input type="text" ng-model="factura.nit_cliente">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Descuento:</span>
+        <input type="text" step="0.01" ng-model="factura.descuento">
+      </label>
+      <!--
       <label class="item item-input">
           <button class="button button-icon icon ion-camera" ng-click="takePicture()"> Select picture </button>
       </label>
-      <img src="data:image/jpg;base64,{{product.photo}}" style="max-width: 100%;" ng-if="(product.photo != '')">
+    
+      <img src="data:image/jpg;base64,{{factura.photo}}" style="max-width: 100%;" ng-if="(factura.photo != '')">
       <div class="item">
-        <b>Lat: </b> {{product.lat}}
+        <b>Lat: </b> {{factura.lat}}
         <br>
-        <b>Long: </b> {{product.long}}
+        <b>Long: </b> {{factura.long}}
       </div>
+    -->
       <button class="button button-block button-positive" ng-click="uploadProduct()">
         Subir!
       </button>

@@ -1,26 +1,31 @@
-<ion-view view-title="Producto" ng-init="loadMap">
+<ion-view view-title="Detalle Factura" ng-init="loadMap">
   <ion-content>
     <div class="list card">
-
-      <div class="item item-avatar">
-        <img src="{{product.image_urls['1080x1440'][0].url}}">
-        <h2>{{product.name}}</h2>
-        <p>{{product.content.description}}</p>
-      </div>
-      <div class="item">
+        <div class="item item-avatar">
+          <img src="img/ionic.png">
+          <h2>Factura Nro. {{factura.nro_fac}}</h2>
+          <p>Importe {{factura.importe | currency}}</p>
+          <p>Descuento {{factura.descuento | currency}}</p>
+          <p>Nit Empresa {{factura.nit_empresa}}</p>
+          <p>Nro Autorizacion {{factura.nro_aut}}</p>
+          <p>Fecha Factura: {{factura.fecha_fac}}</p>
+          <p>Importe Credito Fiscal {{factura.importe_ley | currency}}</p>
+          <p>Codigo Control {{factura.codigo_control}}</p>
+          <p>Nit Cliente {{factura.nit_cliente}}</p>
+        </div>
         <!--
-        <img class="full-image" src="{{product.image_urls['300x400'][0].url}}">-->
-
-        <img src="data:image/jpg;base64,{{product.photo}}" style="max-width: 100%;" ng-if="(product.photo != '')">
+        <div class="item">
+          <img src="data:image/jpg;base64,{{factura.photo}}" style="max-width: 100%;" ng-if="(factura.photo != '')">
+        </div>
+        <div class="item">
+        <a class="item item-icon-left assertive" href="#">
+          <i class="icon ion-ios-cart"></i>
+          Comprar
+        </a>
       </div>
-      <a class="item item-icon-left assertive" href="#">
-        <i class="icon ion-ios-cart"></i>
-        Comprar
-      </a>
-
+      -->  
     </div>
-
-    <div id="map1" class="map" data-tap-disabled="true"></div>
+    <!--<div id="map1" class="map" data-tap-disabled="true"></div>-->
   </ion-content>
 </ion-view>
 

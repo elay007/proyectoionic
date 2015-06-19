@@ -1,4 +1,4 @@
-<ion-view view-title="Productos">
+<ion-view view-title="Facturas">
   <ion-nav-buttons side="right" >
     <a class="button button-clear button-positive" ng-show="userSignedIn()" href="#/tab/dash-form">
       <i class="ion-plus-circled"></i>
@@ -12,7 +12,7 @@
 
       <div class="item item-input-inset">
         <label class="item-input-wrapper">
-          <input type="text" ng-model="searchQuery" placeholder="Search Products">
+          <input type="text" ng-model="searchQuery" placeholder="Search Facturas">
         </label>
         <button class="button button-small">
           Search
@@ -27,12 +27,12 @@
     </ion-refresher>
 
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="product in products | filter:searchQuery" type="item-text-wrap" href="#/tab/dash/{{product.$id}}">
-        <img ng-src="{{product.image_urls['91x121'][0].url}}" >
-        <h2>{{product.name}}</h2>
-        <p>{{product.sale_price | currency}}</p>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" collection-repeat="factura in facturas | filter:searchQuery" type="item-text-wrap" href="#/tab/dash/{{factura.$id}}">
+        <img ng-src="img/ionic.png">
+        <h2>Factura Nro. {{factura.nro_fac}}</h2>
+        <p>{{factura.importe | currency}}</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-        <ion-option-button class="button-assertive" ng-click="remove(product)">
+        <ion-option-button class="button-assertive" ng-click="doDelete(factura)">
           Delete
         </ion-option-button>
       </ion-item>

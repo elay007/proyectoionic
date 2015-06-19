@@ -1,12 +1,12 @@
-angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.core'])
+angular.module('starter.controllers', ['ionic','firebase','ngCordova','ionic.service.core'])
 
 .controller('DashCtrl', function($scope, $firebaseArray) {
 
-	$scope.ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products");
-	$scope.products = $firebaseArray($scope.ref);
+	//$scope.ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products");
+  $scope.ref = new Firebase("https://qrfact.firebaseio.com/facturas");
+	$scope.facturas = $firebaseArray($scope.ref);
 
-
-  $scope.addItems = function() {
+   $scope.addItems = function() {
     var product = {'name':'Iphone', 'sale_price': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'};
     var product2 = {'name':'Android', 'sale_price': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'};
     $scope.products.push(product);
@@ -23,16 +23,54 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 
     //$scope.$broadcast('scroll.infiniteScrollComplete')
   }
+//Eliminar una factura
+  $scope.doDelete = function() {
+    alert("Fa"+$scope.factura.nro_fac+" Ummm");
+    /*
+    var facturaRef = new Firebase("https://qrfact.firebaseio.com/facturas/"+idFactura);
+    
+    var onComplete = function(error) {
+      if (error) {
+        console.log('Synchronization failed');
+      } else {
+        console.log('Synchronization succeeded');
+      }
+    };
+    facturaRef.remove(onComplete);
+    /*
+    var nroFac = $factura.nro_fac;
+    console.log(nroFac);
+    alert("Factura Nro. " + nroFac + " ha sido eliminada.");
+    //$scope.facturas.remove($factura)
+    $factura.remove();
+    $state.go('tab.dash');
+    /*
+      var facturaRef =  $rootScope.refirebase.child("facturas").push($scope.factura);
+      var facturaId = facturaRef.key();
+      console.log(facturaId);
+      
+      */
+  }
 
 	//$scope.products = [{'name':'Iphone', 'prices': 78.10, 'img':'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}, {'name':'Samsung', 'prices': 78.10, 'img': 'http://www.att.com/wireless/iphone/assets/207138-iPhone6-device2.jpg'}] 
 })
 
-.controller('DashFormCtrl', function($scope, $firebaseArray, $rootScope, $state, $cordovaCamera, $cordovaGeolocation) {
+.controller('DashFormCtrl', function($scope, $firebaseArray, $rootScope, $state, $cordovaCamera, $cordovaGeolocation, $cordovaBarcodeScanner) {
 
+    $scope.factura = {"codigo_control" : "",
+    "dato10" : "",
+    "dato11" : "",
+    "dato9" : "",
+    "descuento" : "",
+    "fecha_fac" : "",
+    "importe" : "",
+    "importe_ley" : "",
+    "nit_cliente" : "",
+    "nit_empresa" : "",
+    "nro_aut" : "",
+    "nro_fac" : ""};
 
-    $scope.product = {name: '', sale_price: '', content: {description: ''}, photo: '', lat: -17.37, long: -66.15};
-
-
+/* dmancilla
       var myLatlng = new google.maps.LatLng(-17.37, -66.15);
 
       var mapOptions = {
@@ -50,13 +88,6 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
               title: "Mi locacion",
               options: { draggable: true }
       });
-
-
-
-
-
-
-
     var posOptions = {timeout: 10000, enableHighAccuracy: false};
 
     $cordovaGeolocation
@@ -134,12 +165,46 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
           });
       }
     //}, false);
-
+*/
     $scope.uploadProduct = function() {
-      var productRef =  $rootScope.refirebase.child("products").push($scope.product);
-      var productId = productRef.key();
-      console.log(productId);
-      $state.go('tab.dash-detail',{productId: productId});
+      var facturaRef =  $rootScope.refirebase.child("facturas").push($scope.factura);
+      var facturaId = facturaRef.key();
+      console.log(facturaId);
+      $state.go('tab.dash-detail',{facturaId: facturaId});
+    }
+
+    $scope.leerCodigo = function() {
+        //Test
+        //$scope.loadCodeScan('1023149021|1277|3904001209025|08/01/2015|328.30|328.30|BB-F0-DD-8F-EE|5193654|0|0|0|140.70');
+        $cordovaBarcodeScanner.scan().then( 
+        function(imagenEscaneada) {
+          $scope.loadCodeScan(imagenEscaneada.text);
+      }, 
+      function(error){
+          alert('Ha ocurrido un error '+error);
+        });
+    }
+
+    $scope.loadCodeScan = function(code) {
+      alert('Codigo escaneado: ' + code);
+      //REcuperamos todos los
+      var datosCode = code.split('|');
+      
+      $scope.factura = {
+        "nit_empresa" : datosCode[0],
+        "nro_fac" : datosCode[1],
+        "nro_aut" : datosCode[2],
+        "fecha_fac" : datosCode[3],
+        "importe" : datosCode[4],
+        "importe_ley" : datosCode[5],
+        "codigo_control" : datosCode[6],
+        "nit_cliente" : datosCode[7],
+        "dato9" : "",
+        "dato10" : "",
+        "dato11" : "",
+        "descuento" : datosCode[11]
+      };
+
     }
 
 
@@ -161,27 +226,28 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 
 .controller('DashDetailCtrl', function($scope, $stateParams, $firebaseObject) {
 
-	var ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products/"+$stateParams.productId);
+	//var ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products/"+$stateParams.productId);
+  var ref = new Firebase("https://qrfact.firebaseio.com/facturas/"+$stateParams.facturaId);
 
 
-	$scope.product = $firebaseObject(ref);
+	$scope.factura = $firebaseObject(ref);
 
-  $scope.product.$loaded().then(function() {
+  $scope.factura.$loaded().then(function() {
     $scope.loadMap();
   });
 
-	console.log($scope.product);
+	console.log($scope.factura);
 
 
   $scope.loadMap = function(){
 
-    console.log("Producto");
-    console.log($scope.product);
+    console.log("Factura");
+    console.log($scope.factura);
 
-    console.log($scope.product.lat);
-    console.log($scope.product.long);
+    console.log($scope.factura.lat);
+    console.log($scope.factura.long);
 
-    var myLatlng = new google.maps.LatLng($scope.product.lat, $scope.product.long);
+    var myLatlng = new google.maps.LatLng($scope.factura.lat, $scope.factura.long);
 
     console.log(myLatlng);
 
@@ -194,9 +260,9 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
     var map = new google.maps.Map(document.getElementById("map1"), mapOptions);
 
     var marker = new google.maps.Marker({
-            position: new google.maps.LatLng($scope.product.lat, $scope.product.long),
+            position: new google.maps.LatLng($scope.factura.lat, $scope.factura.long),
             map: map,
-            title: $scope.product.name
+            title: $scope.factura.name
     });
   }
 
@@ -279,7 +345,9 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 
       $scope.createUser = function () {
  
-		var ref = new Firebase("https://shining-inferno-7335.firebaseio.com");
+		//var ref = new Firebase("https://shining-inferno-7335.firebaseio.com");
+    //dmancilla
+    var ref = new Firebase("https://qrfact.firebaseio.com/");
 
 
         if (!$scope.user.email || !$scope.user.password) {
@@ -331,4 +399,30 @@ angular.module('starter.controllers', ['firebase','ngCordova','ionic.service.cor
 
 
 })
+
+.controller('DownFileCtrl', function($scope, $firebaseArray) {// $ionicPlatform, $cordovaFile, $firebaseArray) {
+  
+    $scope.ref = new Firebase("https://qrfact.firebaseio.com/facturas");
+    $scope.facturas = $firebaseArray($scope.ref);
+    
+  $scope.downFacturas = function() {
+    alert('DownfileCtrl');
+
+    $scope.ref = new Firebase("https://qrfact.firebaseio.com/facturas");
+    $scope.facturas = $firebaseArray($scope.ref);
+  /*CArgar un archivo, no funciona todavia
+        document.addEventListener('deviceready', function () {
+        $cordovaFile.createFile(cordova.file.dataDirectory, "new_file.txt", true)
+              .then(function (success) {
+                alert('Archivo creado exitosamente');
+              }, function (error) {
+                alert('Error ' + error);
+              });
+
+        });
+  */
+  }
+    
+})
+
 
