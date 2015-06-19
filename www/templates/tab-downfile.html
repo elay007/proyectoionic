@@ -1,18 +1,22 @@
 <ion-view view-title="Share Facturas" side="center">
   <ion-content>
-    <div class="list list-inset">
-      <button class="button button-block button-positive" ng-click="downFacturas()">
-        Share
-      </button>
+    <div class="list">
+
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" ng-model="searchQuery" placeholder="Search Facturas">
+        </label>
+        <button class="button button-small">
+          Search
+        </button>
+      </div>
+
     </div>
-    <br></br>
-    <br></br>
-    <br></br>
-	<label class="item item-input item-stacked-label">
-    	<span class="input-label">Report</span>
-    	</br>
-    	<span ng-repeat="factura in facturas">{{factura.nit_empresa}}|{{factura.nro_fac}}|{{factura.nro_aut}}|{{factura.fecha_fac}}|{{factura.importe}}|{{factura.importe_ley}}|{{factura.codigo_control}}|{{factura.nit_cliente}}|0|0|0|{{factura.descuento}}</br></span>
-  	</label>
+    <label>
+      Reporte
+    </label>
+    <br>
+    <samp ng-repeat="factura in facturas | filter:searchQuery">{{factura.nit_empresa}}|{{factura.nro_fac}}|{{factura.nro_aut}}|{{factura.fecha_fac}}|{{factura.importe}}|{{factura.importe_ley}}|{{factura.codigo_control}}|{{factura.nit_cliente}}|0|0|0|{{factura.descuento}}<br></samp>
 </ion-content>
 </ion-view>
 

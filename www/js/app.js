@@ -78,8 +78,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
     $rootScope.initSession = function(){
-      //var token = 'lalyl0LdF1yjJA3wPvyhS1qyY2xMiQyp7srpPazR';//$localstorage.get('token');
-      var token = '';//$localstorage.get('token');
+      var token = 'lalyl0LdF1yjJA3wPvyhS1qyY2xMiQyp7srpPazR';//$localstorage.get('token');
+      //var token = '';//$localstorage.get('token');
       console.log(token);
 
       if(token){
@@ -122,13 +122,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   $ionicAppProvider.identify({
     // The App ID for the server
-    app_id: 'f3d4679b',
+    //app_id: 'f3d4679b',
+    app_id: '2aa77f14',
     // The API key all services will use for this app
-    api_key: '6b11e2318c1e056c9aeebca0d32dbd13dea22d5f47940d74',
+    api_key: '3ca3d8f90bd464abead0e977a033b643df27482a00072523',
     
-    api_write_key: 'fedafd58e4c5b1907be4eb615ed814ba630c2dde3a9d9f1fc2da0a10010560ff3875ba3cf6360266ef5bb4ac2a45dd974b3791534e06270ca967bc5b4b449a7a7feb16e7a9cd2542c944220d5d51d57891adf5700fed37040a32826f93bf98a434cb023313ef02b0d65d104c6c684a2c522023454e03008f524a282fc0b11e2b9a1447d24c251723f5c4555c4c4fe347'
+    api_write_key: 'f1caa1c892c2b4a4de4f50b8e0a1c89cfbe45794811310f8'
     // Your GCM sender ID/project number (Uncomment if using GCM)
-    //gcm_id: 'YOUR_GCM_ID'
+    //gcm_id: 'AIzaSyCODrrFudpGT5p99ocdr5DUwA7pkga1pnU'
+    //AIzaSyCODrrFudpGT5p99ocdr5DUwA7pkga1pnU
   });
 
 

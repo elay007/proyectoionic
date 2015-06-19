@@ -1,7 +1,11 @@
 angular.module('starter.controllers', ['ionic','firebase','ngCordova','ionic.service.core'])
 
-.controller('DashCtrl', function($scope, $firebaseArray) {
+.controller('DashCtrl', function($scope, $firebaseArray, $rootScope) {
 
+  $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
+    console.log('Got token', data.token, data.platform);
+    // Do something with the token
+  });
 	//$scope.ref = new Firebase("https://shining-inferno-7335.firebaseio.com/products");
   $scope.ref = new Firebase("https://qrfact.firebaseio.com/facturas");
 	$scope.facturas = $firebaseArray($scope.ref);
@@ -175,20 +179,27 @@ angular.module('starter.controllers', ['ionic','firebase','ngCordova','ionic.ser
 
     $scope.leerCodigo = function() {
         //Test
-        //$scope.loadCodeScan('1023149021|1277|3904001209025|08/01/2015|328.30|328.30|BB-F0-DD-8F-EE|5193654|0|0|0|140.70');
+        var auxScan = '|1023149021|1278|3904001209025|08/01/2015|328.30|328.30|BB-F0-DD-8F-EE|5193654|0|0|0|140.70|';
+        //$scope.loadCodeScan(auxScan);
         $cordovaBarcodeScanner.scan().then( 
         function(imagenEscaneada) {
           $scope.loadCodeScan(imagenEscaneada.text);
-      }, 
-      function(error){
+        }, 
+        function(error){
           alert('Ha ocurrido un error '+error);
         });
+
     }
 
     $scope.loadCodeScan = function(code) {
       alert('Codigo escaneado: ' + code);
+      var aux = code;
+      if (aux.charAt(0) == '|' )
+      {
+        aux = aux.substring(1);
+      }
       //REcuperamos todos los
-      var datosCode = code.split('|');
+      var datosCode = aux.split('|');
       
       $scope.factura = {
         "nit_empresa" : datosCode[0],
@@ -394,12 +405,12 @@ angular.module('starter.controllers', ['ionic','firebase','ngCordova','ionic.ser
     enableFriends: true
   };
 })
-
+/*
 .controller('MapCtrl', function($scope, $rootScope, $state) {
 
 
 })
-
+*/
 .controller('DownFileCtrl', function($scope, $firebaseArray) {// $ionicPlatform, $cordovaFile, $firebaseArray) {
   
     $scope.ref = new Firebase("https://qrfact.firebaseio.com/facturas");
@@ -410,7 +421,8 @@ angular.module('starter.controllers', ['ionic','firebase','ngCordova','ionic.ser
 
     $scope.ref = new Firebase("https://qrfact.firebaseio.com/facturas");
     $scope.facturas = $firebaseArray($scope.ref);
-  /*CArgar un archivo, no funciona todavia
+
+    /*CArgar un archivo, no funciona todavia
         document.addEventListener('deviceready', function () {
         $cordovaFile.createFile(cordova.file.dataDirectory, "new_file.txt", true)
               .then(function (success) {
@@ -420,7 +432,7 @@ angular.module('starter.controllers', ['ionic','firebase','ngCordova','ionic.ser
               });
 
         });
-  */
+    */
   }
     
 })

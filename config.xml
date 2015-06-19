@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.alvaro.nuevapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>NuevaApp</name>
+<widget id="com.dmancilla.cristelqr" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>CritelQR</name>
   <description>
-        Nuevo nombre de app
+        Lectura de QR de facturas de Bolivia
   </description>
-  <author email="alvaromolinac@gmail.com" href="http://alvaro.com/">
-      ALvaro Molina
+  <author email="payodmznqv@gmail.com" href="http://dmancilla.com/">
+      Daniel Mancilla
   </author>
   <content src="index.html"/>
   <access origin="http://*"/>
